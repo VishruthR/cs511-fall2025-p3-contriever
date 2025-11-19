@@ -188,12 +188,15 @@ def main(args):
             index.serialize(embeddings_dir)
 
     # load passages
+    print("loading passages")
     passages = src.data.load_passages(args.passages)
     passage_id_map = {x["id"]: x for x in passages}
 
     data_paths = glob.glob(args.data)
-    alldata = []
+    print(data_paths)
+    # alldata = []
     for path in data_paths:
+        print(f"processing path {path}")
         data = load_data(path)
         output_path = os.path.join(args.output_dir, os.path.basename(path))
 

@@ -77,7 +77,7 @@ def load(model_class, dir_path, opt, reset_params=False):
     if not os.path.isfile(checkpoint_path):
         raise FileNotFoundError(f"Checkpoint file not found: {checkpoint_path}")
     
-    checkpoint = torch.load(checkpoint_path, map_location="cpu")
+    checkpoint = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
     opt_checkpoint = checkpoint["opt"]
     state_dict = checkpoint["model"]
 

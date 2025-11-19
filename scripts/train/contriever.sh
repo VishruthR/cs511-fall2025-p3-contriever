@@ -1,5 +1,5 @@
 #!/bin/bash
-TDIR="/home/xz112/contriever/scripts/preprocess/encoded-data"
+TDIR="/users/vishraj/cs511-fall2025-p3-contriever/encoded-data-small"
 TRAINDATASETS="${TDIR}/bert-base-uncased/wikipedia_en_20231101_subset"
 
 rmin=0.05 #min crop ratio
@@ -16,7 +16,7 @@ mp=none
 
 name=$POOL-rmin$rmin-rmax$rmax-T$T-$QSIZE-$MOM-$mo-$AUG-$PAUG
 
-python3 train.py \
+python3 scripts/train/train.py \
         --model_path $mp \
         --sampling_coefficient $LC \
         --retriever_model_id $mo --pooling $POOL \
@@ -28,6 +28,6 @@ python3 train.py \
         --name $name \
         --scheduler linear \
         --optim adamw \
-        --per_gpu_batch_size 64 \
-        --output_dir /home/xz112/contriever/scripts/train/$name 
+        --per_gpu_batch_size 128 \
+        --output_dir /users/vishraj/cs511-fall2025-p3-contriever/model/$name 
 
