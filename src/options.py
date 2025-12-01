@@ -37,6 +37,7 @@ class Options:
         self.parser.add_argument("--num_workers", type=int, default=5)
 
         self.parser.add_argument("--chunk_length", type=int, default=256)
+        self.parser.add_argument("--num_chunks", type=int, default=None, help="Number of chunks to load from the dataset")
         self.parser.add_argument("--loading_mode", type=str, default="split")
         self.parser.add_argument("--lower_case", action="store_true", help="perform evaluation after lowercasing")
         self.parser.add_argument(

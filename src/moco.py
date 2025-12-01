@@ -139,7 +139,7 @@ class MoCo(nn.Module):
         accuracy = 100 * (predicted_idx == labels).float().mean()
         stdq = torch.std(q, dim=0).mean().item()
         stdk = torch.std(k, dim=0).mean().item()
-        iter_stats[f"{stats_prefix}accuracy"] = (accuracy, bsz)
+        iter_stats[f"{stats_prefix}accuracy"] = (accuracy.item(), bsz)
         iter_stats[f"{stats_prefix}stdq"] = (stdq, bsz)
         iter_stats[f"{stats_prefix}stdk"] = (stdk, bsz)
 

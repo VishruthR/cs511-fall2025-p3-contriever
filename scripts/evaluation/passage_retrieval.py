@@ -190,8 +190,11 @@ def main(args):
     # load passages
     passages = src.data.load_passages(args.passages)
     passage_id_map = {x["id"]: x for x in passages}
+    print(len(passages))
 
     data_paths = glob.glob(args.data)
+    print(args.data)
+    print(data_paths)
     alldata = []
     for path in data_paths:
         data = load_data(path)

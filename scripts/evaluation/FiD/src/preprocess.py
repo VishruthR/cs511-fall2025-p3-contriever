@@ -52,13 +52,13 @@ if __name__ == "__main__":
     NQ_idx = {}
     NQ_passages = {}
     for split in ['test']:
-        with open('open_domain_data/download/NQ.' + split + '.idx.json', 'r') as fin:
+        with open('/Users/vishruthraj/Code/CS511/Contriever/cs511-fall2025-p3-contriever/scripts/evaluation/FiD/open_domain_data/download/NQ.' + split + '.idx.json', 'r') as fin:
             NQ_idx[split] = json.load(fin)
-        with open('open_domain_data/download/nq_passages/' + (split + '.json'), 'r') as fin:
+        with open('/Users/vishruthraj/Code/CS511/Contriever/cs511-fall2025-p3-contriever/scripts/evaluation/FiD/open_domain_data/download/nq_passages/' + (split + '.json'), 'r') as fin:
             NQ_passages[split] = json.load(fin)
 
     originaldev = []
-    with open('open_domain_data/download/NQ-open.dev.jsonl') as fin:
+    with open('/Users/vishruthraj/Code/CS511/Contriever/cs511-fall2025-p3-contriever/scripts/evaluation/FiD/open_domain_data/download/NQ-open.dev.jsonl') as fin:
         for k, example in enumerate(fin):
             example = json.loads(example)
             originaldev.append(example)

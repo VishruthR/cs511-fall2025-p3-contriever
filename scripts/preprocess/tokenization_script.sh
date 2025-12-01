@@ -1,5 +1,5 @@
 NSPLIT=128 #Must be larger than the number of processes used during training
-FILENAME=wikipedia_en_20231101_subset.txt
+FILENAME=wikipedia_en_20231101.txt
 INFILE=./${FILENAME}
 TOKENIZER=bert-base-uncased
 #TOKENIZER=bert-base-multilingual-cased
@@ -9,7 +9,14 @@ NPROCESS=8
 
 mkdir -p ${SPLITDIR}
 echo ${INFILE}
-split -a 3 -d -n l/${NSPLIT} ${INFILE} ${SPLITDIR}
+
+# macOS compatibility: Calculate lines per chunk instead of using split -n l/
+TOTAL_LINES=$(wc -l < "${INFILE}")
+# Ceiling division to ensure we cover all lines
+LINES_PER_CHUNK=$(( (TOTAL_LINES + NSPLIT - 1) / NSPLIT ))
+echo "Splitting ${TOTAL_LINES} lines into chunks of ${LINES_PER_CHUNK} lines..."
+
+split -a 3 -d -l ${LINES_PER_CHUNK} ${INFILE} ${SPLITDIR}
 
 pids=()
 
@@ -17,7 +24,7 @@ for ((i=0;i<$NSPLIT;i++)); do
     num=$(printf "%03d\n" $i);
     FILE=${SPLITDIR}${num};
     #we used --normalize_text as an additional option for mContriever
-    python3 preprocess.py --tokenizer ${TOKENIZER} --datapath ${FILE} --outdir ${OUTDIR} &
+    python3 cs511-fall2025-p3-contriever/scripts/preprocess/preprocess.py --tokenizer ${TOKENIZER} --datapath ${FILE} --outdir ${OUTDIR} &
     pids+=($!);
     if (( $i % $NPROCESS == 0 ))
     then

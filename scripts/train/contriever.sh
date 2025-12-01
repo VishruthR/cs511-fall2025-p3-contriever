@@ -1,6 +1,6 @@
 #!/bin/bash
-TDIR="/home/xz112/contriever/scripts/preprocess/encoded-data"
-TRAINDATASETS="${TDIR}/bert-base-uncased/wikipedia_en_20231101_subset"
+TDIR="/Users/vishruthraj/Code/CS511/Contriever/encoded-data"
+TRAINDATASETS="${TDIR}/bert-base-uncased/wikipedia_en_20231101"
 
 rmin=0.05 #min crop ratio
 rmax=0.5 #max crop ratio
@@ -16,7 +16,7 @@ mp=none
 
 name=$POOL-rmin$rmin-rmax$rmax-T$T-$QSIZE-$MOM-$mo-$AUG-$PAUG
 
-python3 train.py \
+python3 /Users/vishruthraj/Code/CS511/Contriever/cs511-fall2025-p3-contriever/scripts/train/train.py \
         --model_path $mp \
         --sampling_coefficient $LC \
         --retriever_model_id $mo --pooling $POOL \
@@ -24,10 +24,10 @@ python3 train.py \
         --train_data $TRAINDATASETS --loading_mode split \
         --ratio_min $rmin --ratio_max $rmax --chunk_length 256 \
         --momentum $MOM --queue_size $QSIZE --temperature $T \
-        --warmup_steps 100 --total_steps 100000 --lr 0.00005 \
+        --warmup_steps 500 --total_steps 100000 --lr 0.00001 \
         --name $name \
         --scheduler linear \
         --optim adamw \
-        --per_gpu_batch_size 64 \
-        --output_dir /home/xz112/contriever/scripts/train/$name 
+        --per_gpu_batch_size 32 \
+        --output_dir model/bert-base-uncased-scratch
 

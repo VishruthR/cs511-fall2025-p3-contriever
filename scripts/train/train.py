@@ -80,9 +80,24 @@ def train(opt, model, optimizer, scheduler, step):
             train_loss, iter_stats = model(**batch, stats_prefix="train")
 
             train_loss.backward()
-            optimizer.step()
+            grad_norm = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+            iter_stats["grad_norm"] = (grad_norm.item(), 1)
 
-            scheduler.step()
+
+            if torch.isnan(grad_norm):
+                logger.warning(f"Skipping step {step} due to NaN gradients: {grad_norm.item()}")
+                
+                # Check if model parameters are corrupted
+                for name, param in model.named_parameters():
+                    if torch.isnan(param).any():
+                        logger.error(f"Model parameter {name} contains NaNs! Stopping training.")
+                        sys.exit(1)
+                        
+                optimizer.zero_grad()
+            else:
+                optimizer.step()
+                scheduler.step()
+
             model.zero_grad()
 
             run_stats.update(iter_stats)

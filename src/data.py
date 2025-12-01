@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 def load_data(opt, tokenizer):
     datasets = {}
     for path in opt.train_data:
-        data = load_dataset(path, opt.loading_mode)
+        data = load_dataset(path, opt.loading_mode, opt.num_chunks)
         if data is not None:
             datasets[path] = Dataset(data, opt.chunk_length, tokenizer, opt)
     dataset = MultiDataset(datasets)
@@ -28,9 +28,13 @@ def load_data(opt, tokenizer):
     return dataset
 
 
-def load_dataset(data_path, loading_mode):
+def load_dataset(data_path, loading_mode, num_chunks=None):
     files = glob.glob(os.path.join(data_path, "*.p*"))
     files.sort()
+    
+    if num_chunks is not None and num_chunks > 0:
+        files = files[:num_chunks]
+        
     tensors = []
     if loading_mode == "split":
         files_split = list(np.array_split(files, dist_utils.get_world_size()))[dist_utils.get_rank()]
