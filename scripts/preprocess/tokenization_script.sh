@@ -24,7 +24,7 @@ for ((i=0;i<$NSPLIT;i++)); do
     num=$(printf "%03d\n" $i);
     FILE=${SPLITDIR}${num};
     #we used --normalize_text as an additional option for mContriever
-    python3 cs511-fall2025-p3-contriever/scripts/preprocess/preprocess.py --tokenizer ${TOKENIZER} --datapath ${FILE} --outdir ${OUTDIR} &
+    python3 ./scripts/preprocess/preprocess.py --tokenizer ${TOKENIZER} --datapath ${FILE} --outdir ${OUTDIR} &
     pids+=($!);
     if (( $i % $NPROCESS == 0 ))
     then
