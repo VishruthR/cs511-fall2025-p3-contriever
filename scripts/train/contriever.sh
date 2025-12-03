@@ -1,6 +1,6 @@
 #!/bin/bash
-TDIR="/users/vishraj/cs511-fall2025-p3-contriever/encoded-data-small"
-TRAINDATASETS="${TDIR}/bert-base-uncased/wikipedia_en_20231101_subset"
+TDIR="/users/vishraj/cs511-fall2025-p3-contriever/encoded-data"
+TRAINDATASETS="${TDIR}/bert-base-uncased/wikipedia_en_20231101"
 
 rmin=0.05 #min crop ratio
 rmax=0.5 #max crop ratio
@@ -29,5 +29,5 @@ python3 scripts/train/train.py \
         --scheduler linear \
         --optim adamw \
         --per_gpu_batch_size 128 \
-        --output_dir /users/vishraj/cs511-fall2025-p3-contriever/model/$name 
+        --output_dir ./model/$name 
 

@@ -16,7 +16,7 @@ TOTAL_LINES=$(wc -l < "${INFILE}")
 LINES_PER_CHUNK=$(( (TOTAL_LINES + NSPLIT - 1) / NSPLIT ))
 echo "Splitting ${TOTAL_LINES} lines into chunks of ${LINES_PER_CHUNK} lines..."
 
-split -a 3 -d -l ${LINES_PER_CHUNK} ${INFILE} ${SPLITDIR}
+# split -a 3 -d -l ${LINES_PER_CHUNK} ${INFILE} ${SPLITDIR}
 
 pids=()
 

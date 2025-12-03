@@ -3,6 +3,7 @@
 import os
 import time
 import sys
+os.environ["PYTORCH_ALLOC_CONF"] = "expandable_segments:True"
 import torch
 import logging
 import json
